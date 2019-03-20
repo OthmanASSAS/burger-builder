@@ -19,7 +19,6 @@ const burger = props => {
   }
 
 
-  console.log(transformedIngredients);
 
 
   return (

@@ -27,20 +27,19 @@ class BurgerBuilder extends Component {
         purchasable: false,
         purchasing: false,
         loading: false,
-        error:null
+        error: null
     };
 
     componentDidMount = () => {
+        console.log(this.props);
         axios
-            .get(
-                "/ingredients.json"
-            )
+            .get("/ingredients.json")
             .then(response => {
                 this.setState({ ingredients: response.data });
-            }).catch(error =>{
-this.setState({error:true})
             })
-            ;
+            .catch(error => {
+                this.setState({ error: true });
+            });
     };
 
     updatePurchaseState(ingredients) {
@@ -99,7 +98,7 @@ this.setState({error:true})
 
     purchaseContinueHandler = () => {
         // alert("You continue !");
-
+        /* 
         this.setState({ loading: true });
 
         const order = {
@@ -123,7 +122,8 @@ this.setState({error:true})
             })
             .catch(error => {
                 this.setState({ loading: false, purchasing: false });
-            });
+            }); */
+        this.props.history.push("/checkout");
     };
 
     render() {
@@ -134,8 +134,12 @@ this.setState({error:true})
             disabledInfo[key] = disabledInfo[key] <= 0;
         }
         let orderSummary = null;
-        
-        let burger = this.state.error ? <p>Ingredients can't be loaded !</p>:<Spinner />;
+
+        let burger = this.state.error ? (
+            <p>Ingredients can't be loaded !</p>
+        ) : (
+            <Spinner />
+        );
         if (this.state.ingredients) {
             burger = (
                 <React.Fragment>
